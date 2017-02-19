@@ -1,8 +1,8 @@
 # 1. 헬로 람다 표현식
 
-### 사고의 전환
+## 사고의 전환
 
-##### 함수형 스타일에 대해 간단히 알아보기
+**함수형 스타일에 대해 간단히 알아보기**
 
 명령형\(Imperative\) 스타일에서 서술적\(Declarative\) 스타일로의 전환
 
@@ -34,7 +34,9 @@ System.out.println("Found chicago? : " + cities.contains("Chicago"))
 * 오류의 발생확률을 줄여줌
 * 이해하고 쉽고 유지보수가 쉬움
 
-##### 조금 더 복잡한 케이스
+
+
+**조금 더 복잡한 케이스**
 
 prices의 합계를 구하고, 20보다 크면 10%를 할인하는 로직
 
@@ -49,7 +51,6 @@ for(BigDecimal price : prices) {
       totalOfDiscountedPrices.add(price.multiply(BigDecimal.valueOf(0.9)));
 }
 System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
-
 ```
 
 **서술적 스타일**
@@ -75,40 +76,14 @@ System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
 
 **명령형 프로그래밍의 번거로움을 해결하는 함수형 프로그래밍 방법의 중요한 기능 중 하나가 람다\(Lambda\)이다.**
 
-
-
-### 함수형 스타일 코드의 큰 이점
+## 함수형 스타일 코드의 큰 이점
 
 * 변수의 명시적인 변경이나 재할당의 문제를 피할 수 있다. \(immutability\)
 * 함수형 버전은 쉽게 병렬화가 가능하다.
 * 서술적인 코드작성이 가능하다.
 * 함수형 버전은 더 간결하고, 직관적이다. 
 
-### 함수형 스타일로 코딩해야 하는 이유
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 함수형 스타일로 코딩해야 하는 이유
 
 
 
