@@ -84,8 +84,6 @@ friends.stream()
       .collect(Collectors.toList()); //Collector는 3장에서 자세히...
 ```
 
-
-
 ### 람다 표현식의 재사용성
 
 N으로 시작하는 엘리컨트를 선택하는 람다표현식을 재사용
@@ -106,8 +104,6 @@ final long countComradesStartN =
           .filter(startsWithN)
           .count();
 ```
-
-
 
 ### 렉시컬 스코프와 클로저 사용하기
 
@@ -164,8 +160,6 @@ if(foundName != null) {
 
 * 데이터를 찾지 못할경우에 대비하여 null체크를 해야한다.
 
-
-
 람다표현식에서 Optional을 이용한 처리
 
 ```java
@@ -173,15 +167,14 @@ final Optional<String> foundName =
   names.stream()
        .filter(name ->name.startsWith(startingLetter))
        .findFirst();
-  
+//데이터가 존재할경우, 존재하지 않을경우에 대한 처리
 System.out.println(foundName.orElse("No name found"));
+
+//ifPresent 이용하여 값이 존재하는 경우만 출력
+foundName.ifPresent(name -> System.out.println(name))
 ```
 
 * Optional클래스는 결과가 없을수도 있는 경우에 유용하다. \(NullPointException이 발생하는 것을 막아준다\)
-
-
-
-
 
 
 
