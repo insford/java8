@@ -176,6 +176,35 @@ foundName.ifPresent(name -> System.out.println(name))
 
 * Optional클래스는 결과가 없을수도 있는 경우에 유용하다. \(NullPointException이 발생하는 것을 막아준다\)
 
+### 컬렉션을 하나의 값으로 리듀스
+
+리스트에서 엘리먼트의 길이가 가장 긴 항목을 찾고, 그중 첫번째 엘리먼트를 출력하는 예제
+
+```java
+//friends가 empty일수도 있어서 Optional이다.
+final Optional<String> aLongName = 
+  friends.stream()
+         .reduce((name1, name2) -> 
+            name1.length() >= name2.length() ? name1 : name2);
+aLongName.ifPresent(name ->
+  System.out.println(String.format("A longest name: %s", name)));
+```
+
+* reduce가 parameter로 받는 람다표현식은 BinaryOperator라는 함수형 인터페이스다.
+
+### 엘리먼트 조인
+
+```java
+friends.stream()
+     .map(String::toUpperCase)
+     .collect(joining(", ")));
+// A, B, C, D와 같은 형태로 결과가 노출됨. (collect 는 3장에서 자세히 다룸)
+```
+
+
+
+
+
 
 
 
