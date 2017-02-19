@@ -19,7 +19,7 @@ for (int i = 0; i < friedns.length; i++) {
 }
 ```
 
-for loop는 본질적으로 순차적인 방식이라 병렬화 하기가 어렵다. 
+for loop는 본질적으로 순차적인 방식이라 병렬화 하기가 어렵다.
 
 람다표현식을 이용하여 아래와 같이 나타낸다.
 
@@ -54,15 +54,132 @@ friends.stream()
 friends.stream()
     .map(name::toUpperCase)
     .forEach(name -> System.out.print(name + " "));     
-        
 ```
 
 * stream\(\) 메서드는 jdk8의 모든 컬렉션에서 사용할 수 있으며 스트림 인스턴스에 대한 컬렉션을 래핑한다.
 * map 메서드는 입력 엘리먼트 수와 결과 엘리먼트의 수가 동일하다는 것을 보장한다.
 
-
-
 ### 엘리먼트 찾기
+
+N으로 시작하는 엘리먼트를 선택하는 예제
+
+기존의 코드
+
+```java
+final List<String> startsWithN = new ArrayList<String>();
+for(String name : friends) {
+  if(name.startsWith("N")) {
+      startsWithN.add(name);
+  }
+}
+```
+
+람다식 이용
+
+```java
+//filter 메서드는 boolean 결과를 리턴하는 람다 표현식이 필요함.
+final List<String> startsWithN =
+friends.stream()
+      .filter(name -> name.startsWith("N"))
+      .collect(Collectors.toList()); //Collector는 3장에서 자세히...
+```
+
+
+
+### 람다 표현식의 재사용성
+
+N으로 시작하는 엘리컨트를 선택하는 람다표현식을 재사용
+
+```java
+final Predicate<String> startsWithN = name -> name.startsWith("N");
+
+final long countFriendsStartN = 
+  friends.stream()
+         .filter(startsWithN)
+         .count();
+final long countEditorsStartN = 
+  editors.stream()
+         .filter(startsWithN)
+         .count();
+final long countComradesStartN = 
+  comrades.stream()
+          .filter(startsWithN)
+          .count();
+```
+
+
+
+### 렉시컬 스코프와 클로저 사용하기
+
+람다 표현식에서의 중복
+
+```java
+final Predicate<String> startsWithN = name -> name.startsWith("N");
+final Predicate<String> startsWithB = name -> name.startsWith("B");
+
+final long countFriendsStartN = 
+  friends.stream()
+         .filter(startsWithN).count();         
+final long countFriendsStartB = 
+  friends.stream()
+         .filter(startsWithB).count();
+```
+
+렉시컬 스코프로 중복 제거하기
+
+```java
+public static Predicate<String> checkIfStartsWith(final String letter) {
+  return name -> name.startsWith(letter);
+}
+final long countFriendsStartN =
+  friends.stream()
+         .filter(checkIfStartsWith("N")).count();
+final long countFriendsStartB =
+  friends.stream()
+         .filter(checkIfStartsWith("B")).count();
+```
+
+* 변수 letter의 범위는 startsWith 함수의 범위에 있지 않기 때문에 람다표현식의 정의에 대해 범위를 정하고 그 범위 안에서 변수 letter를 찾는다. 이것을 렉시컬 스코프\(lexical scope\)라고 한다. \(함수가 선언된 위치에 따라 정의되는 스코프\)
+
+### 엘리먼트 선택
+
+컬렉션에서 하나의 엘리먼트를 찾아 출력하는 메서드
+
+기존 코드에서의 문제점
+
+```java
+String foundName = null;
+for(String name : names) {
+  if(name.startsWith(startingLetter)) {
+    foundName = name;
+    break;
+  }
+}
+if(foundName != null) {
+  System.out.println(foundName);
+} else {
+  System.out.println("No name found");
+}
+```
+
+* 데이터를 찾지 못할경우에 대비하여 null체크를 해야한다.
+
+
+
+람다표현식에서 Optional을 이용한 처리
+
+```java
+final Optional<String> foundName = 
+  names.stream()
+       .filter(name ->name.startsWith(startingLetter))
+       .findFirst();
+  
+System.out.println(foundName.orElse("No name found"));
+```
+
+* Optional클래스는 결과가 없을수도 있는 경우에 유용하다. \(NullPointException이 발생하는 것을 막아준다\)
+
+
 
 
 
