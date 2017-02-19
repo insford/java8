@@ -164,6 +164,24 @@ for문을 사용하는 것보단, map\(\), sum\(\)등의 서술문을 이용하�
 
 고차함수\(high order function\) : 함수를 파라미터로 받거나, 함수를 리턴하는 함수.
 
+```
+//고차함수의 예 filter, map, reduce
+prices.stream()
+    .filter(price -> price.compareTo(BigDecimal.valueOf(20) > 0))
+    .map(price -> price.multiplay(BigDecimal.valueOf(0.9)))
+    .reduce(BigDecimal.ZERO, BigDecimal::add)
+```
+
+
+
+## 
+
+
+
+
+
+
+
 
 
 
