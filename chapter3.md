@@ -77,9 +77,7 @@ people.stream()
       .sorted(comparing(byName));
 ```
 
-
-
-comparing을 이용한 2차정렬, 두개의 
+comparing을 이용한 2차정렬 구현
 
 ```java
 final Function<Person, Integer> byAge = person -> person.getAge();
@@ -89,6 +87,24 @@ people.stream()
       .sorted(comparing(byAge).thenComparing(byTheirName))
       .collect(toList()));
 ```
+
+thenComparing은 두개의 Comparator를 합성\(composite\)해서 새로운 Comparator를 생성한다. \(아래 코드 참고 : Comparator의 default 메서드로 구현되어있음\)
+
+```java
+default Comparator<T> thenComparing(Comparator<? super T> other) {
+    Objects.requireNonNull(other);
+    return (Comparator<T> & Serializable) (c1, c2) -> {
+        int res = compare(c1, c2);
+        return (res != 0) ? res : other.compare(c1, c2);
+    };
+}
+```
+
+
+
+### collect 메서드와 Collectors 클래스 사용하기
+
+
 
 
 
