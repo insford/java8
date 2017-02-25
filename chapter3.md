@@ -124,9 +124,50 @@ List<Person> olderThan20 =
 
 collect 메서드는 3가지의 파라메터를 받는다. 아래와 같은 메서드로 라이브러리에서 병렬로 합치는 것도 가능하게 해준다!
 
-* 결과컨테이너를 만드는 방법 =&gt; ArrayList::new
-* 하나의 엘리먼트를 결과 컨테이너에 추가하는 방법 =&gt; ArrayList:add
-* 하나의 결과 컨테이너를 다른 결과와 합치는 방법 =&gt; ArrayList::addAll
+* supplier\(결과컨테이너를 만드는 방법\) =&gt; ArrayList::new
+* acumulator\(하나의 엘리먼트를 결과 컨테이너에 추가하는 방법\) =&gt; ArrayList:add
+* combiner\(하나의 결과 컨테이너를 다른 결과와 합치는 방법\) =&gt; ArrayList::addAll
+
+Collectors 유틸리티를 이용하면, collect에 필요한 대부분의 기능들을 미리 만들어놨다. 위에서 본 코드는 아래처럼 변경이 가능하다!
+
+```java
+List<Person> olderThan20 = 
+  people.stream()
+        .filter(person -> person.getAge() > 20)
+        .collect(Collectors.toList());
+```
+
+데이터를 그룹으로 묶는 groupingBy\(\)
+
+```java
+Map<Integer, List<Person>> peopleByAge = 
+  people.stream()
+        .collect(Collectors.groupingBy(Person::getAge));
+//{35=[a - 35], 20=[b - 20], 30=[c - 30, d - 30, e - 30]}
+
+//mapping 파라메터를 추가하면 결과를 다른형태로
+```
+
+mapping기능을 이용해 결과를 다른 형태로도 수집이 가능하다.
+
+```java
+Map<Integer, List<String>> nameOfPeopleByAge = 
+  people.stream()
+        .collect(
+          groupingBy(Person::getAge, mapping(Person::getName, toList())));
+//{35=[a], 20=[b], 30=[c, d, e]}
+```
+
+Collectors에는 위와 같은 기능 외에도 여러가지 메서드가 존재한다. \(toSet\(\), toMap\(\), joining\(\), minBy\(\), maxBy\(\), groupingBy\(\) ...\) 자세한 내용은 API문서를 확인해보자\([https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html)\)
+
+### 디렉터리에서 모든 파일 리스트하기
+
+java8에서는 CloseableStream 인터페이스를 이용해서 디렉토리의 파일을 읽는 기능을 손쉽게 만들어준다. 
+
+```java
+Files.list(Paths.get("."))
+   .forEach(System.out::println);
+```
 
 
 
