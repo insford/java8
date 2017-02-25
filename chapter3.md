@@ -100,9 +100,11 @@ default Comparator<T> thenComparing(Comparator<? super T> other) {
 }
 ```
 
-
-
 ### collect 메서드와 Collectors 클래스 사용하기
+
+기존에 이미 collect\(\)메서드를 사용했다, 이 메서드는 컬렉션을 다른 형태, 즉 가변 컬렉션\(mutable collection\)으로 변경하는 데 유용한 리듀스\(reduce\) 오퍼레이션이다.
+
+
 
 
 
