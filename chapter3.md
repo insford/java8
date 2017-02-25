@@ -162,11 +162,43 @@ Collectors에는 위와 같은 기능 외에도 여러가지 메서드가 존재
 
 ### 디렉터리에서 모든 파일 리스트하기
 
-java8에서는 CloseableStream 인터페이스를 이용해서 디렉토리의 파일을 읽는 기능을 손쉽게 만들어준다. 
+java8에서는 CloseableStream 인터페이스를 이용해서, 파일을 읽는 기능을 손쉽게 만들어준다.
 
 ```java
 Files.list(Paths.get("."))
+   .filter(Files::isDirectory)
    .forEach(System.out::println);
+```
+
+### flatMap을 사용하여 서브 디렉터리 리스트하기
+
+주어진 디렉터리에서 서브 디렉터리를 탐색하는 로직을 flatMap기능을 이용하여 구현해보자.
+
+```java
+List<File> files = new ArrayList<>();
+
+File[] filesInCurrentDir = new File(".").listFiles();
+for(File file : filesInCurrentDir) {
+  File[] filesInSubDir = file.listFiles();
+  if(filesInSubDir != null) {
+    files.addAll(Arrays.asList(filesInSubDir));
+  } else {
+    files.add(file);
+  }
+}
+```
+
+```java
+
+
+
+
+
+List<File> files = 
+  Stream.of(new File(".").listFiles())
+        .flatMap(file -> file.listFiles() == null ? 
+            Stream.of(file) : Stream.of(file.listFiles()))
+        .collect(toList());
 ```
 
 
