@@ -82,5 +82,14 @@ public BigDecimal computeStockWorth(final String ticker, final int shares) {
 }
 ```
 
+위 예제에서는 주식시세값을 반환하는 부분을 딜리게이트하였다. 이부분을 클래스에서 직접 구현하기보다, 외부에서 주입이 가능하도록 변경해보자 \([Dependency inversion principle 원칙](http://www.insford.com/wiki/Wiki.jsp?page=%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%26%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4#section-_EA_B0_9D_EC_B2_B4_EC_A7_80_ED_96_A5_26_EB_94_94_EC_9E_90_EC_9D_B8_ED_8C_A8_ED_84_B4-_EC_9D_98_EC_A1_B4_EA_B4_80_EA_B3_84_EC_97_AD_EC_A0_84_EC_9B_90_EC_B9_99DIPDependencyInversionPrinciple)\) 이렇게 하는 ㅇㅣ유는 코드를 좀 더 확장할 수 있도록 한다.
+
+```java
+//생성자
+public CalculateNAV(final Function<String, BigDecimal> aPriceFinder) {
+  priceFinder = aPriceFinder;
+}
+```
+
 
 
