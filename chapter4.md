@@ -40,7 +40,7 @@ mapToInt는 primitive type을 지원하기위한 함수이다. IntStream으로 �
 
 ##### 복잡한 문제 다루기
 
-전체의 합계가 아닌 채권\(Bond\), 주식\(Stock\) 각각에 대해서 합계를 구하는 함수를 만들어 보자. \(모든값을 더하는 메서드를 작성하였지만 생략함\) 
+전체의 합계가 아닌 채권\(Bond\), 주식\(Stock\) 각각에 대해서 합계를 구하는 함수를 만들어 보자. \(모든값을 더하는 메서드를 작성하였지만 생략함\)
 
 전체의 합, 채권의 합, 주식의 합을 구하는 메서드는 [Strategy Pattern](http://www.insford.com/wiki/Wiki.jsp?page=%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%26%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4#section-_EA_B0_9D_EC_B2_B4_EC_A7_80_ED_96_A5_26_EB_94_94_EC_9E_90_EC_9D_B8_ED_8C_A8_ED_84_B4-StrategyPattern)을 적용하기에 좋은 경우이다. 자바에서는 이 패턴을 구현하기 위해 종종 인터페이스, 클래스 등을 생성하지만, 람다 표현식으로 적용해보면 아래처럼 구현이 가능하다.
 
@@ -68,11 +68,18 @@ Predicate 인터페이스는 참,거짓을 리턴하는 함수형이다.
 
 ### 람다 표현식을 사용하여 딜리게이트하기
 
-클래스 레벨에서 문제를 분리하기. 재사용 측면에서 보면 딜레게이트\(delegate\)는 상속보다 더 좋은 설계 도구이다.
+클래스 레벨에서 문제를 분리하기. 재사용 측면에서 보면 딜리게이트\(delegate\)는 상속보다 더 좋은 설계 도구이다.
 
 ##### 딜리게이트 생성
 
+책임져야 할 부분을 다른 클래스에 딜리게이트하는 것보다, 메서드 레퍼런스로 딜리게이트한다.
 
+```java
+private Function<String, BigDecimal> priceFinder; //주식시세값을 반환한다.
+public BigDecimal computeStockWorth(final String ticker, final int shares) {
+  return priceFinder.apply(ticker).multiply(BigDecimal.valueOf(shares));
+}
+```
 
 
 
