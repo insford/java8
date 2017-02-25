@@ -104,11 +104,29 @@ default Comparator<T> thenComparing(Comparator<? super T> other) {
 
 기존에 이미 collect\(\)메서드를 사용했다, 이 메서드는 컬렉션을 다른 형태, 즉 가변 컬렉션\(mutable collection\)으로 변경하는 데 유용한 리듀스\(reduce\) 오퍼레이션이다.
 
+필터링한 결과를 List로 합치고 싶을 경우
 
+```java
+List<Person> olderThan20 = new ArrayList<>();
+people.stream()
+      .filter(person -> person.getAge() > 20)
+      .forEach(person -> olderThan20.add(person));
+```
 
+forEach를 사용하면 기존 for문을 사용했을때랑 별반 다를 것이 없다. collect 메서드를 이용하면 아래와 같이 서술적으로 구현이 가능하다.
 
+```java
+List<Person> olderThan20 = 
+  people.stream()
+        .filter(person -> person.getAge() > 20)
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+```
 
+collect 메서드는 3가지의 파라메터를 받는다. 아래와 같은 메서드로 라이브러리에서 병렬로 합치는 것도 가능하게 해준다!
 
+* 결과컨테이너를 만드는 방법 =&gt; ArrayList::new
+* 하나의 엘리먼트를 결과 컨테이너에 추가하는 방법 =&gt; ArrayList:add
+* 하나의 결과 컨테이너를 다른 결과와 합치는 방법 =&gt; ArrayList::addAll
 
 
 
