@@ -54,15 +54,20 @@ people.stream()
       .collect(toList());
 ```
 
-
-
 ### Comparator의 재사용
 
 내림차순정렬을 구현할 때, 미리 만들어둔 오름차순을 재활용
 
+```java
+Comparator<Person> compareAscending = 
+  (person1, person2) -> person1.ageDifference(person2);
+Comparator<Person> compareDescending = compareAscending.reversed();
+//이번에 default method로 추가된 컨비니언스 메서드이다
+```
 
 
 
+### 여러가지 비교연산 
 
 
 
