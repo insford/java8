@@ -36,5 +36,33 @@ list.chars()
 
 해당 인터페이스에서는 jdk내에서도 다양하게 사용된다, 해당 인터페이스는 java8부터 함수형 인터페이스로 바뀌었다. comparator를 구현하기위한 다양한 기법들을 사용하면 많은 이점을 얻을 수 있다.
 
+기본적인 comparator 구현 \(사람을 나이기준으로 정렬한다\)
+
+```java
+people.stream()
+      .sorted((person1, person2) -> person1.ageDifference(person2))
+      .collect(toList());
+```
+
+collect\(\)메서드는 이터레이션의 타깃 멤버를 원하는 타입의 포맷으로 변환하는 리듀서\(reducer\)이다. toList\(\)는 Collectors 컨비니언스 클래스의 정적메서드이다.
+
+위 코드는 메서드레퍼런스를 이용하여 아래처럼도 작성이 가능하다.
+
+```java
+people.stream()
+      .sorted(Person::ageDifference)
+      .collect(toList());
+```
+
+
+
+### Comparator의 재사용
+
+내림차순정렬을 구현할 때, 미리 만들어둔 오름차순을 재활용
+
+
+
+
+
 
 
