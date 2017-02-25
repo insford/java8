@@ -56,7 +56,7 @@ people.stream()
 
 ### Comparator의 재사용
 
-내림차순정렬을 구현할 때, 미리 만들어둔 오름차순을 재활용
+내림차순정렬을 구현할 때, 미리 만들어둔 오름차순으로 생성이 가능하다.
 
 ```java
 Comparator<Person> compareAscending = 
@@ -65,9 +65,32 @@ Comparator<Person> compareDescending = compareAscending.reversed();
 //이번에 default method로 추가된 컨비니언스 메서드이다
 ```
 
+### 여러가지 비교연산
+
+Comparator 인터페이스에 추가된 새로운 컨비니언스 메서드에 대해 알아보자.
+
+comparing 메서드,  `(person1.getName().compareTo(person2.getName()))` 와 같은 형식으로 작성해야할 코드를 손쉽게 해준다.
+
+```java
+final Function<Person, String> byName = person -> person.getName();
+people.stream()
+      .sorted(comparing(byName));
+```
 
 
-### 여러가지 비교연산 
+
+comparing을 이용한 2차정렬, 두개의 
+
+```java
+final Function<Person, Integer> byAge = person -> person.getAge();
+final Function<Person, String> byTheirName = person -> person.getName();
+
+people.stream()
+      .sorted(comparing(byAge).thenComparing(byTheirName))
+      .collect(toList()));
+```
+
+
 
 
 
