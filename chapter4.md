@@ -76,6 +76,7 @@ Predicate 인터페이스는 참,거짓을 리턴하는 함수형이다.
 
 ```java
 private Function<String, BigDecimal> priceFinder; //주식시세값을 반환한다.
+//주식시세표와, 주식수로 주식의 가치를 결정하는 함수
 public BigDecimal computeStockWorth(final String ticker, final int shares) {
   return priceFinder.apply(ticker).multiply(BigDecimal.valueOf(shares));
 }
