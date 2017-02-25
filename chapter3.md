@@ -36,5 +36,3 @@ list.chars()
 
 
 
-
-
