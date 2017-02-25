@@ -188,18 +188,16 @@ for(File file : filesInCurrentDir) {
 }
 ```
 
+위와 같은 로직은 아래처럼 표현이 가능하다.
+
 ```java
-
-
-
-
-
 List<File> files = 
   Stream.of(new File(".").listFiles())
         .flatMap(file -> file.listFiles() == null ? 
             Stream.of(file) : Stream.of(file.listFiles()))
         .collect(toList());
+  }
 ```
 
-
+Stream.flatMap은 \(A -&gt; Stream\[A\]\) 함수를 받아, Stream\[Stream\[A\]\]와 같은 형태의 데이터를 Stream\[A\]의 형태로 만들어주는 고차함수이다. flatMap\(\)은 많은 노력을 제거해주며, 단항 조합\(monadic composition\)이라고 하는 두 개의 오퍼레이션의 순서를 하나의 과정으로 조합해준다.
 
