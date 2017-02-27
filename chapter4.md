@@ -130,5 +130,21 @@ funcA.compose(funcB) => funcA(funcB(input))
     => input -> funcB -> funcA -> result
 ```
 
-다시 필터로 돌아가서, reduce를 통해 filter함수를 합성하게 되면, 합성된 하나의 filter함수를 얻을 수 있다.
+다시 필터로 돌아가서 코드를 살펴보면 reduce를 통해 filter함수를 합성하는 방식으로, 합성된 하나의 filter함수를 얻는다. setFilter함수의 기능으로 우리는 filter들의 다양한 조합을 만들 수 있는 데코레이터 패턴을 손쉽게 구현이 가능하다.
+
+```java
+//어두운 필터
+camera.setFilters(Color::darker);
+
+//밝은 필터
+camera.setFilters(Color::brighter);
+
+//어둡고, 밝은 필터를 동시에..
+camera.setFilters(Color::darker, Color::brighter);
+
+```
+
+### 디폴트 메서드 들여다보기
+
+
 
