@@ -91,5 +91,47 @@ public CalculateNAV(final Function<String, BigDecimal> aPriceFinder) {
 }
 ```
 
+### 람다 표현식을 사용한 데코레이팅
+
+[데코레이터 패턴\(decorator pattern\)](http://insford.com/wiki/Wiki.jsp?page=%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%26%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4#section-_EA_B0_9D_EC_B2_B4_EC_A7_80_ED_96_A5_26_EB_94_94_EC_9E_90_EC_9D_B8_ED_8C_A8_ED_84_B4-DecoratorPattern)은 강력하지만 프로그래머는 종종 이 기능을 사용하는 것에 대해 주저한다. 이유는 클래스와 인터페이스의 계층에 대해 부담을 느끼기 때문이다.  다음 예제를 통하여 람다표현식을 사용하여 딜리게이트를 조합함으로써 데코레이터 패턴을 어떻게 사용하는지 알아보자.
+
+##### 필터 설계
+
+카메라에 필터를 추가하는 작업을 체인 형태로 연결해보자.
+
+```java
+public class Camera {  
+  private Function<Color, Color> filter;
+  
+  public Color capture(final Color inputColor) {
+      final Color processedColor = filter.apply(inputColor);
+      //... more processing of color...
+      return processedColor;
+  }
+}
+```
+
+위 코드에서 filter는 Color를 받아서 처리하고 처리한 Color를 리턴하는 함수이다. 클래스가 설계된 것을 보면 하나의 필터만 사용하지만, 다양한 필터를 사용할 수 있도록 수정해보자.
+
+```java
+public void setFilters(final Function<Color, Color>... filters) {
+  filter = Stream.of(filters)
+		  .reduce((filter, next) -> filter.andThen(next))
+		  .orElse(color -> color);
+}
+
+```
+
+위 코드에서는 Function 인터페이스가 제공해주는 [default method](https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html)인 andThen\(\) 함수를 이용한다. andThen함수는 함수를 합성해주는 함수이다. 함수를 합성해주는 함수는 andThen이외에도 compose함수가 존재한다.
+
+```java
+funcA.andThen(funcB) => funcB(funcA(input))
+    => input -> funcA -> funcB -> result
+funcA.compose(funcB) => funcA(funcB(input))
+    => input -> funcB -> funcA -> result
+```
+
+ funcA.andThen\(funcB\)와 같은방식으로 funcAB라는 함수를 만들게 되면 funcA
+
 
 
